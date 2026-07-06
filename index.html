@@ -4,59 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장우진의 자기소개 페이지</title>
-    <style>
-        body {
-            font-family: 'Malgun Gothic', sans-serif;
-            background-color: #f5f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        h1 {
-            font-size: 26px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .badge {
-            color: #4a7aff;
-            font-weight: bold;
-            font-size: 15px;
-            margin-bottom: 25px;
-            display: inline-block;
-        }
-        .section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: left;
-            margin-top: 20px;
-        }
-        .section h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #555;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-        }
-        .section p {
-            margin: 5px 0;
-            color: #666;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="card">
@@ -74,6 +22,39 @@
             <p><strong>관심 분야:</strong> 서비스 기획, 공익형 에이전트 구현, 바이오환경에너지</p>
             <p>이번 챌린지에서 AI 에이전트와 협업하며 기획한 아이디어를 성공적으로 구현해 내겠습니다!</p>
         </div>
+
+        <div class="section calculator-section">
+            <h3>🧮 미니 계산기</h3>
+            <div class="calculator" id="calculator">
+                <div class="display" id="display">0</div>
+                <div class="keys">
+                    <button class="key key-operator" data-action="clear">C</button>
+                    <button class="key key-operator" data-action="back">⌫</button>
+                    <button class="key key-operator" data-action="percent">%</button>
+                    <button class="key key-operator" data-action="divide">÷</button>
+
+                    <button class="key">7</button>
+                    <button class="key">8</button>
+                    <button class="key">9</button>
+                    <button class="key key-operator" data-action="multiply">×</button>
+
+                    <button class="key">4</button>
+                    <button class="key">5</button>
+                    <button class="key">6</button>
+                    <button class="key key-operator" data-action="subtract">−</button>
+
+                    <button class="key">1</button>
+                    <button class="key">2</button>
+                    <button class="key">3</button>
+                    <button class="key key-operator" data-action="add">+</button>
+
+                    <button class="key zero">0</button>
+                    <button class="key">.</button>
+                    <button class="key key-equals" data-action="equals">=</button>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
