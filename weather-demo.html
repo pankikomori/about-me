@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Weather Dashboard</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+            background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 50%, #7c3aed 100%);
+            transition: background 0.5s ease;
+        }
+
+        body.sunny {
+            background: linear-gradient(135deg, #f59e0b 0%, #fb923c 45%, #38bdf8 100%);
+        }
+
+        body.cloudy {
+            background: linear-gradient(135deg, #334155 0%, #64748b 55%, #94a3b8 100%);
+        }
+
+        body.rainy {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 40%, #38bdf8 100%);
+        }
+
+        body.snowy {
+            background: linear-gradient(135deg, #1f2937 0%, #475569 45%, #bfdbfe 100%);
+        }
+
+        .dashboard {
+            width: min(100%, 980px);
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.28);
+        }
+
+        .top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 10px 12px;
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #fff;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.16);
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.24);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 18px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 22px;
+            padding: 18px;
+        }
+
+        .current-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .current-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .location h2 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .location p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            padding: 7px 10px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+            font-size: 0.85rem;
+        }
+
+        .current-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .weather-icon {
+            font-size: 4.7rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .temp-block {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .temp {
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .condition {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 10px;
+            min-height: 70px;
+        }
+
+        .detail-item span {
+            display: block;
+            font-size: 0.76rem;
+            opacity: 0.72;
+            margin-bottom: 5px;
+        }
+
+        .detail-item p {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .side-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hourly-list, .daily-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .forecast-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .forecast-item:last-child {
+            border-bottom: none;
+        }
+
+        .forecast-item strong {
+            font-size: 0.95rem;
+        }
+
+        .status {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .muted {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.74);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 780px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .details-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard {
+                padding: 16px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .temp {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="top-bar">
+            <div class="search-box">
+                <span>🔍</span>
+                <input id="cityInput" type="text" placeholder="도시를 입력하세요" />
+            </div>
+            <div class="buttons">
+                <button id="searchBtn">검색</button>
+                <button id="locateBtn">내 위치</button>
+                <button id="unitBtn">°C / °F</button>
+                <button id="refreshBtn">새로고침</button>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="card current-card">
+                <div class="current-header">
+                    <div class="location">
+                        <h2 id="cityName">로딩 중...</h2>
+                        <p id="dateText">날씨 정보를 불러오는 중입니다.</p>
+                    </div>
+                    <div id="statusBadge" class="badge">불러오는 중</div>
+                </div>
+
+                <div class="current-main">
+                    <div class="weather-icon" id="weatherIcon">🌤️</div>
+                    <div class="temp-block">
+                        <div class="temp" id="tempValue">--°</div>
+                        <div class="condition" id="conditionText">날씨를 확인하세요</div>
+                    </div>
+                </div>
+
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span>체감온도</span>
+                        <p id="feelsLike">--</p>
+                    </div>
+                    <div class="detail-item">
+                        <span>습도</span>
+                        <p id="humidity">--</p>
+                    </div>
+                    <div class="detail-item">
+                        <span>풍속</span>
+                        <p id="windSpeed">--</p>
+                    </div>
+                    <div class="detail-item">
+                        <span>강수확률</span>
+                        <p id="precipProb">--</p>
+                    </div>
+                    <div class="detail-item">
+                        <span>기압</span>
+                        <p id="pressure">--</p>
+                    </div>
+                    <div class="detail-item">
+                        <span>가시거리</span>
+                        <p id="visibility">--</p>
+                    </div>
+                </div>
+
+                <div class="status" id="sunInfo">일출/일몰 정보를 불러오는 중입니다.</div>
+            </div>
+
+            <div class="side-stack">
+                <div class="card">
+                    <div class="section-title">오늘 시간대 예보</div>
+                    <div id="hourlyList" class="hourly-list"></div>
+                </div>
+
+                <div class="card">
+                    <div class="section-title">주간 예보</div>
+                    <div id="dailyList" class="daily-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            unit: 'c',
+            lat: 35.1796,
+            lon: 129.0756,
+            city: '부산'
+        };
+
+        const elements = {
+            cityName: document.getElementById('cityName'),
+            dateText: document.getElementById('dateText'),
+            statusBadge: document.getElementById('statusBadge'),
+            weatherIcon: document.getElementById('weatherIcon'),
+            tempValue: document.getElementById('tempValue'),
+            conditionText: document.getElementById('conditionText'),
+            feelsLike: document.getElementById('feelsLike'),
+            humidity: document.getElementById('humidity'),
+            windSpeed: document.getElementById('windSpeed'),
+            precipProb: document.getElementById('precipProb'),
+            pressure: document.getElementById('pressure'),
+            visibility: document.getElementById('visibility'),
+            sunInfo: document.getElementById('sunInfo'),
+            hourlyList: document.getElementById('hourlyList'),
+            dailyList: document.getElementById('dailyList'),
+            cityInput: document.getElementById('cityInput')
+        };
+
+        function getWeatherIcon(code, isDay) {
+            const daytime = isDay ? '☀️' : '🌙';
+            if (code <= 2) return daytime;
+            if (code <= 3) return '☁️';
+            if (code <= 48) return '🌫️';
+            if (code <= 57) return '🌦️';
+            if (code <= 67) return '🌧️';
+            if (code <= 77) return '🌨️';
+            if (code <= 82) return '⛈️';
+            if (code <= 86) return '🌨️';
+            return '🌤️';
+        }
+
+        function getThemeClass(code) {
+            if (code <= 2) return 'sunny';
+            if (code <= 3) return 'cloudy';
+            if (code <= 48) return 'cloudy';
+            if (code <= 57) return 'rainy';
+            if (code <= 67) return 'rainy';
+            if (code <= 77) return 'snowy';
+            if (code <= 82) return 'rainy';
+            if (code <= 86) return 'snowy';
+            return 'sunny';
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleString('ko-KR', {
+                month: 'long',
+                day: 'numeric',
+                weekday: 'short',
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+        }
+
+        function formatTemp(value) {
+            return state.unit === 'c' ? `${Math.round(value)}°C` : `${Math.round((value * 9) / 5 + 32)}°F`;
+        }
+
+        function formatSpeed(value) {
+            return state.unit === 'c' ? `${value.toFixed(1)} m/s` : `${(value * 2.237).toFixed(1)} mph`;
+        }
+
+        function formatPressure(value) {
+            return `${Math.round(value)} hPa`;
+        }
+
+        function formatVisibility(value) {
+            return `${(value / 1000).toFixed(1)} km`;
+        }
+
+        function updateWeather(data) {
+            const current = data.current;
+            const daily = data.daily;
+            const hourly = data.hourly;
+            const now = new Date();
+
+            elements.cityName.textContent = data.city || state.city;
+            elements.dateText.textContent = now.toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            elements.statusBadge.textContent = data.city ? '실시간' : '기본값';
+            elements.weatherIcon.textContent = getWeatherIcon(current.weather_code, current.is_day);
+            elements.tempValue.textContent = formatTemp(current.temperature_2m);
+            elements.conditionText.textContent = current.condition || '맑음';
+            elements.feelsLike.textContent = formatTemp(current.apparent_temperature);
+            elements.humidity.textContent = `${Math.round(current.relative_humidity_2m)}%`;
+            elements.windSpeed.textContent = formatSpeed(current.windspeed_10m);
+            elements.precipProb.textContent = `${Math.round(current.precipitation_probability)}%`;
+            elements.pressure.textContent = formatPressure(current.pressure_msl);
+            elements.visibility.textContent = formatVisibility(current.visibility);
+            elements.sunInfo.textContent = `일출 ${current.sunrise ? current.sunrise.slice(11, 16) : '--:--'} · 일몰 ${current.sunset ? current.sunset.slice(11, 16) : '--:--'}`;
+
+            document.body.className = getThemeClass(current.weather_code);
+
+            elements.hourlyList.innerHTML = hourly.slice(0, 6).map((item, index) => `
+                <div class="forecast-item">
+                    <strong>${index === 0 ? '지금' : `${new Date(item.time).getHours()}시`}</strong>
+                    <span>${getWeatherIcon(item.weather_code, true)}</span>
+                    <span>${formatTemp(item.temperature_2m)}</span>
+                </div>
+            `).join('');
+
+            elements.dailyList.innerHTML = daily.slice(0, 7).map((item, index) => `
+                <div class="forecast-item">
+                    <strong>${index === 0 ? '오늘' : new Date(item.time).toLocaleDateString('ko-KR', { weekday: 'short' })}</strong>
+                    <span>${getWeatherIcon(item.weather_code, true)}</span>
+                    <span>${formatTemp(item.temperature_2m_max)} / ${formatTemp(item.temperature_2m_min)}</span>
+                </div>
+            `).join('');
+        }
+
+        async function fetchWeather(lat, lon, cityName = '') {
+            try {
+                elements.statusBadge.textContent = '불러오는 중';
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,windspeed_10m,pressure_msl,visibility,is_day&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto&forecast_days=7`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Weather request failed');
+                const data = await response.json();
+
+                const weatherCode = data.current.weather_code;
+                const conditionMap = {
+                    0: '맑음', 1: '대체로 맑음', 2: '변동적', 3: '흐림',
+                    45: '안개', 48: '박무', 51: '이슬비', 53: '이슬비', 55: '이슬비',
+                    61: '비', 63: '폭우', 65: '폭우', 71: '눈', 73: '눈', 75: '눈',
+                    77: '눈', 80: '소나기', 81: '소나기', 82: '폭우', 85: '눈', 86: '눈'
+                };
+
+                const mapped = {
+                    city: cityName || state.city,
+                    current: {
+                        ...data.current,
+                        condition: conditionMap[weatherCode] || '현재 날씨',
+                        sunrise: data.daily.sunrise?.[0],
+                        sunset: data.daily.sunset?.[0]
+                    },
+                    hourly: data.hourly.time.slice(0, 6).map((time, index) => ({
+                        time,
+                        temperature_2m: data.hourly.temperature_2m[index],
+                        weather_code: data.hourly.weather_code[index]
+                    })),
+                    daily: data.daily.time.slice(0, 7).map((time, index) => ({
+                        time,
+                        weather_code: data.daily.weather_code[index],
+                        temperature_2m_max: data.daily.temperature_2m_max[index],
+                        temperature_2m_min: data.daily.temperature_2m_min[index]
+                    }))
+                };
+
+                updateWeather(mapped);
+                elements.statusBadge.textContent = '정상';
+            } catch (error) {
+                elements.statusBadge.textContent = '오류';
+                elements.sunInfo.textContent = '날씨를 불러오지 못했습니다. 다시 시도해 주세요.';
+                console.error(error);
+            }
+        }
+
+        async function searchCity() {
+            const query = elements.cityInput.value.trim();
+            if (!query) return;
+            try {
+                const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=ko&format=json`;
+                const response = await fetch(geocodeUrl);
+                if (!response.ok) throw new Error('Geocoding failed');
+                const geocode = await response.json();
+                if (!geocode.results?.length) {
+                    elements.sunInfo.textContent = '해당 도시를 찾을 수 없습니다.';
+                    return;
+                }
+                const place = geocode.results[0];
+                state.city = place.name;
+                state.lat = place.latitude;
+                state.lon = place.longitude;
+                await fetchWeather(state.lat, state.lon, place.name);
+            } catch (error) {
+                console.error(error);
+                elements.sunInfo.textContent = '도시 검색 중 오류가 발생했습니다.';
+            }
+        }
+
+        function useMyLocation() {
+            if (!navigator.geolocation) {
+                elements.sunInfo.textContent = '이 브라우저는 위치 정보를 지원하지 않습니다.';
+                return;
+            }
+            elements.sunInfo.textContent = '위치 정보를 확인하는 중입니다...';
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    state.lat = position.coords.latitude;
+                    state.lon = position.coords.longitude;
+                    await fetchWeather(state.lat, state.lon, '내 위치');
+                },
+                () => {
+                    elements.sunInfo.textContent = '위치 권한이 거부되었습니다. 기본 도시로 표시합니다.';
+                    fetchWeather(state.lat, state.lon, state.city);
+                }
+            );
+        }
+
+        function toggleUnit() {
+            state.unit = state.unit === 'c' ? 'f' : 'c';
+            document.getElementById('unitBtn').textContent = state.unit === 'c' ? '°C / °F' : '°F / °C';
+            fetchWeather(state.lat, state.lon, state.city);
+        }
+
+        document.getElementById('searchBtn').addEventListener('click', searchCity);
+        document.getElementById('locateBtn').addEventListener('click', useMyLocation);
+        document.getElementById('unitBtn').addEventListener('click', toggleUnit);
+        document.getElementById('refreshBtn').addEventListener('click', () => fetchWeather(state.lat, state.lon, state.city));
+        elements.cityInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') searchCity();
+        });
+
+        fetchWeather(state.lat, state.lon, state.city);
+    </script>
+</body>
+</html>
