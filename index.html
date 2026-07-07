@@ -3,122 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자기소개 + 미니 계산기</title>
-    <style>
-        :root{--bg:#f5f7fa;--card:#fff;--accent:#4a7aff;--muted:#6b7280}
-        html,body{height:100%;margin:0;font-family:Malgun Gothic, Apple SD Gothic Neo, sans-serif;background:var(--bg)}
-        .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:28px}
-        .card{width:100%;max-width:760px;background:var(--card);border-radius:14px;box-shadow:0 12px 30px rgba(2,6,23,0.06);padding:22px;display:grid;grid-template-columns:1fr 360px;gap:18px}
-        .left h1{margin:0 0 6px;font-size:22px;color:#111}
-        .badge{color:var(--accent);font-weight:700;margin-bottom:14px;display:inline-block}
-        .section{background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:12px}
-        .section h3{margin:0 0 8px;font-size:15px;color:#333}
-        .section p{margin:6px 0;color:var(--muted);font-size:14px}
-
-        /* Calculator */
-        .calculator{background:linear-gradient(180deg,#f9fbff,#fff);padding:14px;border-radius:12px}
-        .display{background:#0f1724;color:#e6f0ff;padding:12px;border-radius:8px;text-align:right;font-size:28px;min-height:56px;overflow:hidden}
-        .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-        .key{padding:12px;border-radius:10px;border:0;background:#fff;box-shadow:0 6px 12px rgba(2,6,23,0.04);font-size:16px;cursor:pointer}
-        .key-operator{background:#eef2ff;font-weight:600}
-        .key-equals{background:var(--accent);color:#fff}
-        .zero{grid-column:span 2}
-
-        @media(max-width:820px){.card{grid-template-columns:1fr;max-width:520px}.calculator{margin-top:6px}}
-    </style>
+    <title>스마트 소상공인 지원금 매칭 MVP</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="wrap">
-        <div class="card">
-            <div class="left">
-                <h1>안녕하세요, 장우진입니다! 👋</h1>
-                <div class="badge">Naver Boostcamp AI Agent Challenge 참가자</div>
+    <header class="hero">
+        <div class="hero-content">
+            <p class="eyebrow">AI 기반 MVP 데모</p>
+            <h1>스마트 소상공인 지원금 매칭 및 규제 가이드 에이전트</h1>
+            <p class="hero-text">매장 정보를 등록하면, 맞춤형 공공 지원금을 추천하고 최신 노동법·계약서 리스크를 안내하는 서비스입니다.</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="scroll-demo">지금 데모 보기</button>
+                <a class="btn btn-secondary" href="#features">핵심 기능</a>
+            </div>
+            <ul class="hero-stats">
+                <li><strong>맞춤형 추천</strong><span>업종·지역·규모 반영</span></li>
+                <li><strong>실시간 가이드</strong><span>법률·규제 요약</span></li>
+                <li><strong>신청 리마인드</strong><span>기한·필수 서류 안내</span></li>
+            </ul>
+        </div>
+    </header>
 
-                <div class="section">
-                    <h3>🏫 학과</h3>
-                    <p>부산대학교 바이오환경에너지학과 재학 중</p>
-                </div>
-
-                <div class="section">
-                    <h3>💡 나를 소개</h3>
-                    <p><strong>닉네임:</strong> 판례 히키코모리</p>
-                    <p><strong>관심 분야:</strong> 서비스 기획, 공익형 에이전트 구현, 바이오환경에너지</p>
+    <main>
+        <section class="panel auth-panel">
+            <div class="auth-card">
+                <p class="section-label">빠른 시작</p>
+                <h2>사장님 계정으로 바로 시작하기</h2>
+                <p class="panel-copy">로그인하면 지원금 추천과 가이드 기록을 이어서 관리할 수 있습니다.</p>
+                <div class="auth-actions">
+                    <button class="btn btn-primary" id="show-login">로그인</button>
+                    <button class="btn btn-secondary" id="show-signup">회원가입</button>
                 </div>
             </div>
+            <div class="auth-card auth-form-card" id="auth-card">
+                <h3 id="auth-title">로그인</h3>
+                <form id="auth-form">
+                    <label>이메일
+                        <input type="email" placeholder="name@example.com" required>
+                    </label>
+                    <label>비밀번호
+                        <input type="password" placeholder="••••••••" required>
+                    </label>
+                    <button class="btn btn-primary full" type="submit">시작하기</button>
+                </form>
+            </div>
+        </section>
 
-            <aside>
-                <div class="section calculator">
-                    <h3>🧮 미니 계산기</h3>
-                    <div class="calculator" id="calc">
-                        <div class="display" id="display">0</div>
-                        <div class="keys" aria-hidden="false">
-                            <button class="key key-operator" data-action="clear">C</button>
-                            <button class="key key-operator" data-action="back">⌫</button>
-                            <button class="key key-operator" data-action="percent">%</button>
-                            <button class="key key-operator" data-action="divide">÷</button>
+        <section class="panel" id="demo">
+            <div class="panel-heading">
+                <div>
+                    <p class="section-label">MVP 기능</p>
+                    <h2>매장 정보를 입력하면 바로 추천받기</h2>
+                </div>
+                <p class="panel-copy">소상공인이 가장 자주 겪는 지원금과 규제 정보를 한 화면에서 확인할 수 있도록 구성했습니다.</p>
+            </div>
 
-                            <button class="key">7</button>
-                            <button class="key">8</button>
-                            <button class="key">9</button>
-                            <button class="key key-operator" data-action="multiply">×</button>
+            <div class="demo-grid">
+                <form id="mvp-form" class="card form-card">
+                    <label>
+                        업종
+                        <select id="industry">
+                            <option value="restaurant">음식점</option>
+                            <option value="beauty">미용실</option>
+                            <option value="cafe">카페</option>
+                            <option value="retail">소매점</option>
+                        </select>
+                    </label>
+                    <label>
+                        지역
+                        <select id="region">
+                            <option value="seoul">서울</option>
+                            <option value="busan">부산</option>
+                            <option value="daegu">대구</option>
+                            <option value="incheon">인천</option>
+                        </select>
+                    </label>
+                    <label>
+                        매장 규모
+                        <select id="size">
+                            <option value="small">1~5인</option>
+                            <option value="medium">6~10인</option>
+                            <option value="large">11인 이상</option>
+                        </select>
+                    </label>
+                    <label>
+                        종사자 수
+                        <input id="employees" type="number" min="1" max="50" value="5">
+                    </label>
+                    <button type="submit" class="btn btn-primary full">추천받기</button>
+                </form>
 
-                            <button class="key">4</button>
-                            <button class="key">5</button>
-                            <button class="key">6</button>
-                            <button class="key key-operator" data-action="subtract">−</button>
-
-                            <button class="key">1</button>
-                            <button class="key">2</button>
-                            <button class="key">3</button>
-                            <button class="key key-operator" data-action="add">+</button>
-
-                            <button class="key zero">0</button>
-                            <button class="key">.</button>
-                            <button class="key key-equals" data-action="equals">=</button>
+                <div class="card result-card">
+                    <div class="result-header">
+                        <p class="section-label">추천 결과</p>
+                        <h3>지금 바로 확인할 수 있는 제안</h3>
+                    </div>
+                    <div id="recommendation-list" class="recommendation-list"></div>
+                    <div class="summary-panel">
+                        <div class="summary-row">
+                            <span>신청 준비도</span>
+                            <strong id="readiness-score">0%</strong>
                         </div>
+                        <div class="progress-bar">
+                            <div id="readiness-fill"></div>
+                        </div>
+                        <p id="readiness-text" class="summary-text"></p>
+                    </div>
+                    <div class="saved-panel">
+                        <div class="saved-header">
+                            <h4>관심 지원금</h4>
+                            <span>바로 확인</span>
+                        </div>
+                        <div id="saved-list" class="saved-list"></div>
                     </div>
                 </div>
-            </aside>
-        </div>
-    </div>
+            </div>
+        </section>
 
-    <script>
-    (function(){
-        const display = document.getElementById('display');
-        const keys = document.querySelector('.keys');
-        let expr = '';
+        <section class="panel" id="features">
+            <div class="panel-heading">
+                <div>
+                    <p class="section-label">핵심 기능</p>
+                    <h2>지원금 매칭과 규제 가이드를 한 번에</h2>
+                </div>
+            </div>
+            <div class="feature-grid">
+                <article class="card feature-card">
+                    <h3>💸 지원금 매칭</h3>
+                    <p>업종과 지역 정보를 바탕으로 신청 가능한 공공 지원금을 자동 추천합니다.</p>
+                </article>
+                <article class="card feature-card">
+                    <h3>📘 규제 가이드</h3>
+                    <p>노동법, 계약서 독소조항, 근로시간 기준을 쉬운 문장으로 안내합니다.</p>
+                </article>
+                <article class="card feature-card">
+                    <h3>🔔 실시간 알림</h3>
+                    <p>지원금 공고와 법률 변경 사항을 알림으로 빠르게 전달합니다.</p>
+                </article>
+            </div>
+        </section>
 
-        function update(){ display.textContent = expr || '0'; }
+        <section class="panel guide-panel">
+            <div class="card">
+                <p class="section-label">알림</p>
+                <h3>오늘의 알림</h3>
+                <div class="notification-list">
+                    <div class="notification-item">📢 지원금 신청 마감이 3일 남았습니다.</div>
+                    <div class="notification-item">⚖️ 최신 노동법 변경안이 반영되었습니다.</div>
+                    <div class="notification-item">📝 계약서 체크리스트를 확인해 보세요.</div>
+                </div>
+            </div>
+            <div class="guide-copy">
+                <p class="section-label">법률 가이드</p>
+                <h2>사장님이 바로 써먹는 실무형 안내</h2>
+                <p>근로계약서나 노동법 관련 질문이 생기면, AI가 핵심 포인트를 정리해 안내합니다.</p>
+                <ul class="check-list">
+                    <li>최저임금·주휴수당 기준 요약</li>
+                    <li>계약서 위험 조항 미리 점검</li>
+                    <li>법적 리스크가 큰 항목은 전문가 상담 권장 안내</li>
+                </ul>
+            </div>
 
-        function sanitize(s){ return s.replace(/[×]/g,'*').replace(/[÷]/g,'/').replace(/[−]/g,'-').replace(/[^0-9+\-*/().%]/g,''); }
+            <div class="card chat-card">
+                <h3>AI 가이드 챗</h3>
+                <div id="chat-messages" class="chat-messages">
+                    <div class="chat-item bot">안녕하세요! 지원금·법률 가이드가 필요하시면 무엇이든 질문해 주세요.</div>
+                </div>
+                <form id="chat-form" class="chat-form">
+                    <input id="chat-input" type="text" placeholder="예: 근로계약서 체크 포인트 알려줘" autocomplete="off">
+                    <button type="submit" class="btn btn-primary">전송</button>
+                </form>
+            </div>
+        </section>
+    </main>
 
-        function compute(){
-            try{ const res = eval(sanitize(expr)); expr = String(res); }
-            catch(e){ expr = 'Error' }
-            update();
-        }
+    <footer>
+        <p>MVP 웹 데모 · 스마트 소상공인 지원금 매칭 및 규제 가이드 에이전트</p>
+    </footer>
 
-        keys.addEventListener('click', e=>{
-            const btn = e.target.closest('button'); if(!btn) return;
-            const action = btn.dataset.action; const v = btn.textContent.trim();
-            if(action==='clear'){ expr=''; update(); return }
-            if(action==='back'){ expr=expr.slice(0,-1); update(); return }
-            if(action==='percent'){ try{ expr = String((parseFloat(expr||'0')/100)); }catch{expr=''} update(); return }
-            if(action==='equals'){ compute(); return }
-            expr += v; update();
-        });
-
-        window.addEventListener('keydown', e=>{
-            if((/^[0-9]$/).test(e.key) || '+-*/().'.includes(e.key)){
-                expr += e.key; update(); e.preventDefault(); return;
-            }
-            if(e.key==='Enter' || e.key==='='){ compute(); e.preventDefault(); return }
-            if(e.key==='Backspace'){ expr=expr.slice(0,-1); update(); e.preventDefault(); return }
-            if(e.key==='Escape'){ expr=''; update(); e.preventDefault(); }
-        });
-
-        update();
-    })();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사업계획서 - 스마트 소상공인 지원금 매칭 및 규제 가이드 에이전트</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .topbar a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 14px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--accent-soft), #ffffff);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 16px 32px rgba(15,23,42,0.06);
+    }
+    .hero h1 { font-size: 2rem; margin: 0 0 12px; }
+    .hero p { color: var(--muted); margin: 0; }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .hero-stats div {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.04);
+    }
+    .card h2 { margin-top: 0; font-size: 1.2rem; }
+    .card ul { padding-left: 18px; color: var(--muted); }
+    .pill {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f8fafc; }
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 20px 0 40px;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding: 24px; }
+      .hero-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <strong>사업계획서</strong>
+      <nav>
+        <a href="#overview">사업 개요</a>
+        <a href="#problem">문제 정의</a>
+        <a href="#features">핵심 기능</a>
+        <a href="#mvp">MVP 범위</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="pill">사업계획서 웹 페이지</div>
+      <h1>스마트 소상공인 지원금 매칭 및 규제 가이드 에이전트</h1>
+      <p>소상공인이 매장 정보를 등록하면, 맞춤형 지원금 제도를 추천하고 법률·규제 가이드를 제공하는 AI 기반 서비스입니다.</p>
+      <div class="hero-stats">
+        <div><strong>맞춤형 추천</strong><br/>업종·지역·규모 반영</div>
+        <div><strong>실무형 가이드</strong><br/>노동법·계약서 리스크 대응</div>
+        <div><strong>빠른 실행</strong><br/>MVP로 신속 검증 가능</div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card" id="overview">
+        <h2>1. 사업 개요</h2>
+        <p>본 서비스는 소상공인이 시간 부족과 정보 부족으로 인해 공공 지원금을 놓치거나, 복잡한 규제와 계약서 리스크를 인지하지 못하는 문제를 해결하기 위해 기획되었습니다.</p>
+        <ul>
+          <li>지원금 추천 및 신청 안내</li>
+          <li>노동법·계약서 가이드 제공</li>
+          <li>실시간 알림 및 리마인드</li>
+        </ul>
+      </section>
+
+      <section class="card" id="problem">
+        <h2>2. 문제 정의</h2>
+        <ul>
+          <li>지원금 제도와 신청 기한을 놓치기 쉬움</li>
+          <li>법률·규제 정보를 이해하는 데 어려움</li>
+          <li>매장 운영에 바쁜 사장님이 정보 탐색에 시간 투자 어려움</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>3. 타겟 사용자</h2>
+        <ul>
+          <li>자영업자 및 소상공인 대표</li>
+          <li>1~10인 규모 매장 운영자</li>
+          <li>정책 정보 접근이 제한적인 사용자</li>
+          <li>법률·규제 정보가 필요한 사용자</li>
+        </ul>
+      </section>
+
+      <section class="card" id="features">
+        <h2>4. 핵심 기능</h2>
+        <ul>
+          <li>매장 정보 기반 지원금 매칭</li>
+          <li>노동법·계약서 실무 가이드</li>
+          <li>알림 및 신청 일정 관리</li>
+          <li>관심 지원금 저장 기능</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="card" id="mvp" style="margin-top: 20px;">
+      <h2>5. MVP 개발 범위</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>회원 기능</td>
+            <td>로그인/회원가입, 프로필 관리</td>
+          </tr>
+          <tr>
+            <td>매장 관리</td>
+            <td>업종, 지역, 규모, 종사자 수 등록</td>
+          </tr>
+          <tr>
+            <td>지원금 추천</td>
+            <td>맞춤형 공공 지원금 제안 및 준비도 확인</td>
+          </tr>
+          <tr>
+            <td>가이드 기능</td>
+            <td>노동법 요약, 계약서 체크 포인트 제공</td>
+          </tr>
+          <tr>
+            <td>알림 기능</td>
+            <td>지원금 마감 알림, 규제 변경 안내</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" style="margin-top: 20px;">
+      <h2>6. 시장 및 수익 모델</h2>
+      <ul>
+        <li>초기 고객층: 자영업자, 소규모 매장 운영자, 지역 상권 중심 사업자</li>
+        <li>수익 모델: 기본 서비스 무료, 프리미엄 가이드·알림·신청 지원 기능 유료 전환</li>
+        <li>확장 가능성: 지자체·공공기관·상권 플랫폼과의 제휴 및 연계 서비스</li>
+      </ul>
+    </section>
+
+    <section class="card" style="margin-top: 20px;">
+      <h2>7. 기대 효과</h2>
+      <ul>
+        <li>지원금 수혜 기회 확대</li>
+        <li>법률 리스크 감소</li>
+        <li>소상공인의 운영 시간 절감</li>
+        <li>지역 경제 활성화 기여</li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      MVP 웹 데모 · 스마트 소상공인 지원금 매칭 및 규제 가이드 에이전트
+    </div>
+  </div>
+</body>
+</html>
